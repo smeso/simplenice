@@ -1,0 +1,12 @@
+User-agent: *
+{% for p in pages %}
+{% if p.robots and p.robots == 'none' %}
+{% if p.status and p.status != 'hidden' %}
+Disallow: /{{p.url}}
+Disallow: /{{p.url}}/*
+{% endif %}
+{% endif %}
+{% endfor %}
+
+Sitemap: {{SITEURL}}/sitemap.xml
+

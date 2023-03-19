@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+{% for page in pages %}
+  {% if not page.robots or page.robots != 'none' %}
+  {% if not page.status or page.status != 'hidden' %}
+  <url>
+    <loc>{{ SITEURL }}/{{ page.url }}</loc>
+    <lastmod>{{ page.date.strftime('%Y-%m-%d') }}</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  {% for translation in page.translations %}
+  <url>
+    <loc>{{ SITEURL }}/{{ translation.url }}</loc>
+    <lastmod>{{ page.date.strftime('%Y-%m-%d') }}</lastmod>
+    <priority>1.0</priority>
+  </url>
+  {% endfor %}
+  {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% for article in articles %}
+  {% if not article.robots or article.robots != 'none' %}
+  {% if not article.status or article.status != 'hidden' %}
+  <url>
+    <loc>{{ SITEURL }}/{{ article.url }}</loc>
+    <lastmod>{{ article.date.strftime('%Y-%m-%d') }}</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  {% for translation in article.translations %}
+  <url>
+    <loc>{{ SITEURL }}/{{ translation.url }}</loc>
+    <lastmod>{{ article.date.strftime('%Y-%m-%d') }}</lastmod>
+    <priority>0.8</priority>
+  </url>
+  {% endfor %}
+  {% endif %}
+  {% endif %}
+{% endfor %}
+
+</urlset>
+

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ SITENAME }} - Blog{% endblock %}
+{% block content %}
+{% block posts_header %}{% endblock %}
+{% if articles %}
+                    {% for article in (articles_page.object_list if articles_page else articles) %}
+                    <article itemtype="http://schema.org/BlogPosting" itemscope="itemscope" itemprop="blogPost">
+                        <a itemprop="name" href="{{ SITEURL }}/{{ article.url }}"><h2>{{ article.title }}</h2></a>
+                        <p class="subtitle"><time datetime="{{ article.date.strftime('%Y-%m-%d') }}" itemprop="datePublished">Published on <b>{{ article.date.strftime('%d/%m/%Y') }}</b></time> in <a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>{% for tag in article.tags %}, <a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>{% endfor %}</p>
+                        <section itemprop="articleBody">{{ article.summary }}</section>
+                        <a href="{{ SITEURL }}/{{ article.url }}" title="{{ article.title }}">Read the rest of the post</a>
+                    </article>
+                    <hr>
+                    {% endfor %}
+                    {% if DEFAULT_PAGINATION and articles_paginator.num_pages > 1 %}
+                    {% set first_page = articles_paginator.page(1) %}
+                    {% set last_page = articles_paginator.page(articles_paginator.num_pages) %}
+                    <p class="paginator">
+                        {% if articles_page.has_previous() %}
+                        <a href="{{ SITEURL }}/{{ first_page.url }}" title="First page">&lang;&lang;&lang;</a>
+                        <a href="{{ SITEURL }}/{{ articles_previous_page.url }}" title="Previous page">&lang;&lang;</a>
+                        {% endif %}
+                        {% for n in range(articles_page.number-4, articles_page.number+5) %}
+                        {% if n >= 1 and n <= articles_paginator.num_pages %}
+                        {% if n == articles_page.number %}
+                        <span>{{n}}</span>
+                        {% else %}
+                        <a href="{{ SITEURL }}/{{ articles_paginator.page(n).url }}" title="Previous page">{{n}}</a>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        {% if articles_page.has_next() %}
+                        <a href="{{ SITEURL }}/{{ articles_next_page.url }}" title="Next page">&rang;&rang;</a>
+                        <a href="{{ SITEURL }}/{{ last_page.url }}" title="Last page">&rang;&rang;&rang;</a>
+                        {% endif %}
+                    </p>
+                    {% endif %}
+{% endif %}
+{% endblock %}

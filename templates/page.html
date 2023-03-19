@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ SITENAME }} - {{ page.title|striptags|e }}{% endblock %}
+{% block full_url %}{{SITEURL}}/{{page.url}}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block custom_meta %}
+{% if page.robots == "none" %}
+        <meta name="robots" content="none">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+                    <div>
+                        {% block page_content %}
+                        {% endblock %}
+
+                        {{ page.content }}
+                    </div>
+{% endblock %}

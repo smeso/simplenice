@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<!--! SimpleNice by https://smeso.it - https://github.com/smeso/simplenice - Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0 -->
+{% if article %}
+<html lang="{{ DEFAULT_LANG }}" prefix="og: http://ogp.me/ns#" itemscope itemtype="http://schema.org/BlogPosting">
+{% elif page %}
+<html lang="{{ DEFAULT_LANG }}" prefix="og: http://ogp.me/ns#" itemscope itemtype="http://schema.org/WebPage">
+{% else %}
+<html lang="{{ DEFAULT_LANG }}" prefix="og: http://ogp.me/ns#" itemscope itemtype="http://schema.org/Blog">
+{% endif %}
+    <head>
+        <link rel="preload" as="style" href="{{ SITEURL }}/theme/css/main.css">
+        <link rel="preload" as="script" href="{{ SITEURL }}/theme/js/main.js">
+        <link rel="preload" as="script" href="{{ SITEURL }}/theme/js/footer.js">
+        <link rel="preload" as="style" href="{{ SITEURL }}/theme/css/pygment.css">
+        <link rel="preload" as="style" href="{{ SITEURL }}/theme/css/pygment-dark.css">
+        <link rel="preload" as="style" href="{{ SITEURL }}/theme/css/pygment-high-contrast.css">
+        <meta charset="utf-8">
+        <title>{% block title %}{{ SITENAME }}{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'{% if ALLOW_UNSAFE_INLINE_SCRIPT %} 'unsafe-inline'{% endif %}; img-src 'self'; style-src 'self'; base-uri 'self'; media-src 'self'; form-action duckduckgo.com">
+        {% if FAVICON %}
+        <link rel="shortcut icon" href="{{ SITEURL }}/{{ FAVICON }}" type="{{ FAVICON_TYPE }}">
+        {% endif %}
+        <meta name="author" content="{{ AUTHOR }}">
+        <meta name="copyright" content="{{ AUTHOR }}">
+        <meta name="description" content="{% block description %}{{ DESCRIPTION }}{% endblock %}">
+        {% if page and page.tags %}
+        <meta name="keywords" content="{{ page.tags|join(', ') }}">
+        {% elif article and article.tags %}
+        <meta name="keywords" content="{{ article.tags|join(', ') }}">
+        {% endif %}
+        <meta name="twitter:card" content="summary">
+        {% if TWITTER_USERNAME %}
+        <meta name="twitter:site" content="@{{ TWITTER_USERNAME }}">
+        {% endif %}
+        <meta property="og:locale" content="{{ LOCALE.0 }}">
+        <meta property="og:site_name" content="{{ SITENAME }}">
+        <meta property="og:title" content="{{ self.title() }}">
+        {% if article %}
+        <meta property="og:type" content="article">
+        {% else %}
+        <meta property="og:type" content="website">
+        {% endif %}
+        <meta property="og:url" content="{% block full_url %}{{SITEURL}}/{{output_file | replace('/index.html', '')}}{% endblock %}">
+        <meta name="twitter:title" content="{{ self.title() }}">
+        <meta name="twitter:url" content="{{ self.full_url() }}">
+        <meta itemprop="name" content="{{ self.title() }}">
+        <meta itemprop="url" content="{{ self.full_url() }}">
+        <meta property="og:description" content="{{ self.description() }}">
+        <meta name="twitter:description" content="{{ self.description() }}">
+        <meta itemprop="description" content="{{ self.description()  }}">
+        <link rel="canonical" href="{{ self.full_url() }}">
+        {% if article %}
+        {% if article.date %}
+        <meta property="og:article:published_time" content="{{ article.date.strftime('%Y-%m-%d') }}" />
+        {% endif %}
+        {% if article.modified %}
+        <meta property="og:article:modified_time" content="{{ article.modified.strftime('%Y-%m-%d') }}">
+        <meta itemprop="dateModified" content="{{ article.date.strftime('%Y-%m-%d') }}" />
+        {% endif %}
+        {% if article.author %}
+        <meta property="og:article:author" content="{{ article.author }}" >
+        {% endif %}
+        <meta property="og:article:section" content="{{ article.category }}">
+        <meta property="og:article:tag" content="{{ article.category }}">
+        {% for tag in article.tags %}
+        <meta property="og:article:tag" content="{{ tag }}">
+        {% endfor %}
+        {% if article.image %}
+        <meta property="og:image" content="{{ SITEURL }}{{ article.image }}" />
+        <meta name="twitter:image" content="{{ SITEURL }}{{ article.image }}" />
+        <meta itemprop="image" content="{{ SITEURL }}{{ article.image }}"/>
+        {% elif META_IMAGE %}
+        <meta property="og:image" content="{{ SITEURL }}{{ META_IMAGE }}" />
+        <meta property="og:image:type" content="{{ SITEURL }}{{ META_IMAGE_TYPE }}" />
+        <meta name="twitter:image" content="{{ SITEURL }}{{ META_IMAGE }}" />
+        <meta itemprop="image" content="{{ SITEURL }}{{ META_IMAGE }}" />
+        {% endif %}
+        {% elif page and page.image %}
+        <meta property="og:image" content="{{ SITEURL }}{{ page.image }}" />
+        <meta name="twitter:image" content="{{ SITEURL }}{{ page.image }}" />
+        <meta itemprop="image" content="{{ SITEURL }}{{ page.image }}"/>
+        {% elif META_IMAGE %}
+        <meta property="og:image" content="{{ SITEURL }}{{ META_IMAGE }}" />
+        <meta property="og:image:type" content="{{ SITEURL }}{{ META_IMAGE_TYPE }}" />
+        <meta name="twitter:image" content="{{ SITEURL }}{{ META_IMAGE }}" />
+        <meta itemprop="image" content="{{ SITEURL }}{{ META_IMAGE }}" />
+        {% endif %}
+        {% if article %}
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "author": {
+                "@type": "Person",
+                "name": "{{ article.author }}"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "{{ SITENAME }}",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{{ SITEURL }}/{{ FAVICON }}"
+                }
+            },
+            "headline": "{{ self.title() }}",
+            "about": "{{ article.category }}",
+            "datePublished": "{{ article.date.strftime('%Y-%m-%d') }}",
+            "image": "{% if article.image %}{{ SITEURL }}/{{ article.image }}{% else %}{{ SITEURL }}/{{ FAVICON }}{% endif %}"
+
+        }
+        </script>
+        {% endif %}
+        {% if FEED_ALL_ATOM %}
+        <link href="{{ SITEURL }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} ATOM Feed">
+        {% endif %}
+        {% if FEED_ALL_RSS %}
+        <link href="{{ SITEURL }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS Feed">
+        {% endif %}
+        {% if tag %}
+        {% if TAG_FEED_ATOM %}
+        <link href="{{ SITEURL }}/{{ TAG_FEED_ATOM % tag | lower }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} {{tag}} ATOM Feed">
+        {% endif %}
+        {% if TAG_FEED_RSS %}
+        <link href="{{ SITEURL }}/{{ TAG_FEED_RSS % tag | lower }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} {{tag}} RSS Feed">
+        {% endif %}
+        {% endif %}
+        {% if category %}
+        {% if CATEGORY_FEED_ATOM %}
+        <link href="{{ SITEURL }}/{{ CATEGORY_FEED_ATOM % category | lower }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} {{category}} ATOM Feed">
+        {% endif %}
+        {% if CATEGORY_FEED_RSS %}
+        <link href="{{ SITEURL }}/{{ CATEGORY_FEED_RSS % category | lower }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} {{category}} RSS Feed">
+        {% endif %}
+        {% endif %}
+        {% block custom_meta %}{% endblock %}
+        <link rel="stylesheet" href="{{ SITEURL }}/theme/css/main.css">
+        <script async src="{{ SITEURL }}/theme/js/main.js"></script>
+        <link id="pygmentcss" rel="stylesheet" href="{{ SITEURL }}/theme/css/pygment.css">
+        <link rel="stylesheet" media="(prefers-contrast: more)" href="{{ SITEURL }}/theme/css/pygment-high-contrast.css">
+        <link rel="stylesheet" media="screen and (prefers-color-scheme: dark)" href="{{ SITEURL }}/theme/css/pygment-dark.css">
+    </head>
+    <body>
+        <header>
+            <h1><a href="{{ SITEURL }}">smeso</a></h1>
+            <div class="theme_switch" hidden>
+                <a class="theme_switch" id="theme_default_switch" href="#">default</a>&nbsp;
+                <a class="theme_switch" id="theme_contrast_switch" href="#">high contrast</a>&nbsp;
+                <a class="theme_switch" id="theme_dark_switch" href="#">dark</a>
+            </div>
+        </header>
+        <div id="topcontainer">
+            <div>
+                <nav class="menu_hor_top" hidden aria-hidden="true">
+                    <ul>
+                        {% for title, link, file in MENUITEMS %}
+                        <li {% if file == output_file or (title == "Blog" and not page) %} class="selected"{% endif %}><a tabindex="-1" href="{{ SITEURL }}{{ link }}">{{ title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+                <div id="nav">
+                    <nav class="menu">
+                        <ul>
+                            {% for title, link, file in MENUITEMS %}
+                            <li><a href="{{ SITEURL }}{{ link }}"{% if file == output_file or (title == "Blog" and not page) %} class="selected"{% endif %}>{{ title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    {% if SEARCH %}
+                    <br>
+                    <nav class="menu">
+                        <form class="search" method="get" action="https://duckduckgo.com/" target="_blank">
+                            <label for="search">Search via DuckDuckGo:</label>
+                            <input id="search" type="search" name="q" placeholder="Search via DDG">
+                            <input type="hidden" name="sites" value="{{DOMAIN}}">
+                            <br>
+                            <input type="submit" value="Search">
+                        </form>
+                    </nav>
+                    {% endif %}
+                    {% if not page %}
+                    <br>
+                    <nav class="menu">
+                        <ul>
+                            <li><a href="{{ SITEURL }}/categories.html"{% if output_file == "categories.html" %} class="selected"{% endif %}>Categories</a></li>
+                            <li><a href="{{ SITEURL }}/tags.html"{% if output_file == "tags.html" %} class="selected"{% endif %}>Tags</a></li>
+                        </ul>
+                    </nav>
+                    {% endif %}
+                    <br>
+                    <nav class="menu">
+                        <ul>
+                            {% for name, link in SOCIAL %}
+                            {% if name.lower() == 'e-mail' %}
+                            <li><a href="{{ link }}"><img src="{{SITEURL}}/theme/icons/envelope.svg" alt="envelope icon" width="40" height="40"><br>{{ name }}</a></li>
+                            {% else %}
+                            <li><a target="_blank" rel="me" href="{{ link }}"><img src="{{SITEURL}}/theme/icons/{{name|lower}}.svg" alt="{{name}} icon" width="40" height="40"><br>{{ name }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if FEED_ALL_ATOM %}
+                            <li><a rel="alternate" type="application/atom+xml" href="{{ SITEURL }}/{{ FEED_ALL_ATOM }}"><img src="{{SITEURL}}/theme/icons/rss.svg" alt="RSS icon" width="40" height="40"><br>ATOM</a></li>
+                            {% endif %}
+                            {% if FEED_ALL_RSS %}
+                            <li><a rel="alternate" type="application/rss+xml" href="{{ SITEURL }}/{{ FEED_ALL_RSS }}"><img src="{{SITEURL}}/theme/icons/rss.svg" alt="RSS icon" width="40" height="40"><br>RSS</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+                <main>
+                    {% block content %}
+                    {% endblock %}
+                </main>
+            </div>
+            {% if SEARCH %}
+            <nav class="menu_hor" hidden aria-hidden="true">
+                <form class="search" method="get" action="https://duckduckgo.com/" target="_blank">
+                    <label for="search1">Search via DuckDuckGo:</label>
+                    <input tabindex="-1" id="search1" type="search" name="q" placeholder="Search via DDG">
+                    <input tabindex="-1" type="hidden" name="sites" value="{{DOMAIN}}">
+                    <input tabindex="-1" type="submit" value="Search">
+                </form>
+            </nav>
+            <br>
+            {% endif %}
+            <nav class="menu_hor" hidden aria-hidden="true">
+                <ul>
+                    {% for name, link in SOCIAL %}
+                    {% if name.lower() == 'e-mail' %}
+                    <li><a tabindex="-1" href="{{ link }}" title="{{name}}"><img src="{{SITEURL}}/theme/icons/envelope.svg" alt="envelope icon" width="40" height="40"></a></li>
+                    {% else %}
+                    <li><a tabindex="-1" target="_blank" rel="me" href="{{ link }}" title="{{name}}"><img src="{{SITEURL}}/theme/icons/{{name|lower}}.svg" alt="{{name}} icon" width="40" height="40"></a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if FEED_ALL_ATOM %}
+                    <li><a tabindex="-1" rel="alternate" type="application/atom+xml" href="{{ SITEURL }}/{{ FEED_ALL_ATOM }}" title="ATOM"><img src="{{SITEURL}}/theme/icons/rss.svg" alt="RSS icon" width="40" height="40"></a></li>
+                    {% endif %}
+                    {% if FEED_ALL_RSS %}
+                    <li><a tabindex="-1" rel="alternate" type="application/rss+xml" href="{{ SITEURL }}/{{ FEED_ALL_RSS }}" title="RSS"><img src="{{SITEURL}}/theme/icons/rss.svg" alt="RSS icon" width="40" height="40"></a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <footer>
+                <p>{% if LICENSE_CONTENT %}This site and its contents are licensed under the <a rel="license" href="{{ LICENSE_CONTENT.link }}" target="_blank">{{ LICENSE_CONTENT.name }}</a>, unless stated otherwise. <br>{% endif %}
+                {% if LICENSE_CODE %}Code is licensed under the <a rel="license" href="{{ LICENSE_CODE.link }}" target="_blank">{{ LICENSE_CODE.name }}</a>, unless stated otherwise. <br>{% endif %}
+                Generated with <a href="https://getpelican.com/" target="_blank" rel="nofollow">Pelican</a>. Icons by <a href="https://fontawesome.com/license/free" target="_blank" rel="nofollow">Font Awesome</a>.
+                Theme based on <a href="https://github.com/smeso/simplenice" target="_blank" rel="nofollow">simplenice</a>.</p>
+            </footer>
+        </div>
+        <script defer src="{{ SITEURL }}/theme/js/footer.js"></script>
+    </body>
+</html>
