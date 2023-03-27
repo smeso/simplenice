@@ -1,3 +1,5 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+
 function set_property(name, theme) {
     var r = document.querySelector(':root');
     r.style.setProperty('--' + name,
