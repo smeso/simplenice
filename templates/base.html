@@ -57,7 +57,7 @@
         {% endif %}
         {% if article.modified %}
         <meta property="og:article:modified_time" content="{{ article.modified.strftime('%Y-%m-%d') }}">
-        <meta itemprop="dateModified" content="{{ article.date.strftime('%Y-%m-%d') }}" />
+        <meta itemprop="dateModified" content="{{ article.modified.strftime('%Y-%m-%d') }}" />
         {% endif %}
         {% if article.author %}
         <meta property="og:article:author" content="{{ article.author }}" >
