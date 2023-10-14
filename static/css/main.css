@@ -407,10 +407,13 @@ nav.menu_hor_top a, nav.menu_hor_top img {
 }
 
 div.share {
-    margin: 30px;
+    text-align:center;
+}
+
+div.innershare {
+    display: grid;
     border-width: 1px;
     border-style: solid;
-    text-align:center;
 }
 
 div.share li {

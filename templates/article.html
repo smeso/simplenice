@@ -28,30 +28,32 @@
                     </div>
                     {% if SHARE %}
                     <div class="share">
-                        <p>Share on:</p>
-                        <ul>
-                            <li>
-                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ SITEURL | urlencode }}/{{ article.url | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/linkedin.svg" alt="LinkedIn icon" width="40" height="40"><br>LinkedIn</a>
-                            </li>
-                            <li>
-                                <a href="https://news.ycombinator.com/submitlink?t={{ article.title | striptags | urlencode }}&u={{ SITEURL | urlencode }}/{{ article.url | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/hackernews.svg" alt="Hacker News icon" width="40" height="40"><br>Hacker News</a>
-                            </li>
-                            <li>
-                                <a href="https://twitter.com/intent/tweet?text={{ article.title | striptags | urlencode }}&url={{ SITEURL | urlencode }}/{{ article.url | urlencode }}{% if TWITTER_USERNAME %}&via={{ TWITTER_USERNAME }}{% endif %}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/twitter.svg" alt="Twitter icon" width="40" height="40"><br>Twitter</a>
-                            </li>
-                            <li>
-                                <a href="https://www.reddit.com/submit?url={{ SITEURL | urlencode }}/{{ article.url | urlencode }}&title={{ article.title | striptags | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/reddit.svg" alt="Reddit icon" width="40" height="40"><br>Reddit</a>
-                            </li>
-                            <!--<li>
-                                <a href="https://mastodon.social/share?text={{ SITEURL | urlencode }}/{{ article.url | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/mastodon.svg" alt="Mastodon icon" width="40" height="40"><br>Mastodon</a>
-                            </li>-->
-                            <li>
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ SITEURL | urlencode }}/{{ article.url | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/facebook.svg" alt="Facebook icon" width="40" height="40"><br>Facebook</a>
-                            </li>
-                            <li>
-                                <a href="mailto:?subject={{ article.title | striptags | urlencode }}&body={{ SITEURL | urlencode }}/{{ article.url | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/envelope.svg" alt="Envelope icon" width="40" height="40"><br>E-Mail</a>
-                            </li>
-                        </ul>
+                        <div class="innershare">
+                            <p>Share on:</p>
+                            <ul>
+                                <li>
+                                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ SITEURL | urlencode }}/{{ article.url | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/linkedin.svg" alt="LinkedIn icon" width="40" height="40"><br>LinkedIn</a>
+                                </li>
+                                <li>
+                                    <a href="https://news.ycombinator.com/submitlink?t={{ article.title | striptags | urlencode }}&u={{ SITEURL | urlencode }}/{{ article.url | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/hackernews.svg" alt="Hacker News icon" width="40" height="40"><br>Hacker News</a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/intent/tweet?text={{ article.title | striptags | urlencode }}&url={{ SITEURL | urlencode }}/{{ article.url | urlencode }}{% if TWITTER_USERNAME %}&via={{ TWITTER_USERNAME }}{% endif %}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/twitter.svg" alt="Twitter icon" width="40" height="40"><br>Twitter</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.reddit.com/submit?url={{ SITEURL | urlencode }}/{{ article.url | urlencode }}&title={{ article.title | striptags | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/reddit.svg" alt="Reddit icon" width="40" height="40"><br>Reddit</a>
+                                </li>
+                                <!--<li>
+                                    <a href="https://mastodon.social/share?text={{ SITEURL | urlencode }}/{{ article.url | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/mastodon.svg" alt="Mastodon icon" width="40" height="40"><br>Mastodon</a>
+                                </li>-->
+                                <li>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ SITEURL | urlencode }}/{{ article.url | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/facebook.svg" alt="Facebook icon" width="40" height="40"><br>Facebook</a>
+                                </li>
+                                <li>
+                                    <a href="mailto:?subject={{ article.title | striptags | urlencode }}&body={{ SITEURL | urlencode }}/{{ article.url | urlencode }}" target="_blank" rel="nofollow"><img src="{{SITEURL}}/theme/icons/envelope.svg" alt="Envelope icon" width="40" height="40"><br>E-Mail</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     {% endif %}
 {% endblock %}
