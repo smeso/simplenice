@@ -469,7 +469,7 @@ details[open] summary {
 
 pre, code, kbd, samp, blockquote {
     background: var(--nav-hover-bg);
-    border: 1px solid var(--color-text);
+    /* border: 1px solid var(--color-text); */
     padding: 5px;
     overflow-x: auto;
 }
