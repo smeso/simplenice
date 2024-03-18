@@ -5,6 +5,11 @@
 {% if article.description or article.summary %}
 {% block description %}{% if article.description %}{{ article.description|striptags|e }}{% else %}{{ article.summary|striptags|e }}{% endif %}{% endblock %}
 {% endif %}
+{% block custom_meta %}
+{% if article.robots == "none" %}
+        <meta name="robots" content="none">
+{% endif %}
+{% endblock %}
 
 {% block content %}
                     <article>
